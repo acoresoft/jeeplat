@@ -35,7 +35,7 @@
 		<curator.version>2.10.0</curator.version>
 		<commons-codec.version>1.6</commons-codec.version>
 		<bcprov-jdk15on.version>1.56</bcprov-jdk15on.version>
-		<commons-lang3.version>3.2.1</commons-lang3.version>
+		<commons-lang3.version>3.7</commons-lang3.version>
 		<commons-collections.version>3.2.2</commons-collections.version>
 		<commons-io.version>2.2</commons-io.version>
 		<httpclient.version>4.4.1</httpclient.version>
@@ -46,7 +46,7 @@
 		<kryo-serializers.version>0.26</kryo-serializers.version>
 		<hessian.version>4.0.38</hessian.version>
 		<jetty.version>6.1.24</jetty.version>
-		<guava.version>14.0.1</guava.version>
+		<guava.version>25.0-jre</guava.version>
 		<aspectj.version>1.8.9</aspectj.version>
 		<kaptcha.version>0.0.9</kaptcha.version>
 		<curator.version>2.10.0</curator.version>

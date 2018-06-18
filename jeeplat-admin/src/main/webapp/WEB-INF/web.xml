@@ -12,6 +12,10 @@
 			classpath*:spring-*.xml
 		</param-value>
 	</context-param>
+	<context-param>
+            <param-name>spring.profiles.default</param-name>
+            <param-value>development</param-value>
+    </context-param>
 	<!-- Spring Framework -->
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>

@@ -12,6 +12,11 @@
 	
 	
 	<dependencies>
+		<dependency>
+			<groupId>com.acoreful</groupId>
+			<artifactId>jeeplat-commons</artifactId>
+			<version>${jeeplat.version}</version>
+		</dependency>
 		<!--  Spring-->
 		<dependency>
 			<groupId>org.springframework</groupId>

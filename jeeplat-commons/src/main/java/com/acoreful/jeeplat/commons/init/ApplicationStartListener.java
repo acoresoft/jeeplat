@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.core.env.AbstractEnvironment;
 
 import com.google.common.collect.ImmutableMap;
 
@@ -19,6 +20,7 @@ public class ApplicationStartListener implements ApplicationListener<ContextRefr
 		ApplicationContext cxt = contextRefreshedEvent.getApplicationContext();
 		ApplicationContext parentCxt = cxt.getParent();
 		if(parentCxt==null) {
+			System.out.println(cxt.getEnvironment().getProperty(AbstractEnvironment.ACTIVE_PROFILES_PROPERTY_NAME));
 			logger.info("----------ActiveProfiles:{}", ToStringBuilder.reflectionToString(cxt.getEnvironment().getActiveProfiles(),
 					ToStringStyle.JSON_STYLE));
 			this.printSystemEnvProperties();

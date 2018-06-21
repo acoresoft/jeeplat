@@ -2,30 +2,28 @@ package com.acoreful.jeeplat.components.demo;
 
 import java.util.Arrays;
 
-import org.springframework.aop.framework.AopProxyUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.BeanNameAware;
 import org.springframework.beans.factory.DisposableBean;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.SmartInitializingSingleton;
-import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
-import org.springframework.beans.factory.config.NamedBeanHolder;
-import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.MergedBeanDefinitionPostProcessor;
 import org.springframework.beans.factory.support.RootBeanDefinition;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.EmbeddedValueResolverAware;
-import org.springframework.core.Ordered;
+import org.springframework.core.PriorityOrdered;
 import org.springframework.util.StringValueResolver;
+
+import com.acoreful.jeeplat.commons.api.AcfDemoServiceApi;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class AcfDemoAnnotationBeanPostProcessor implements MergedBeanDefinitionPostProcessor, Ordered,
-		EmbeddedValueResolverAware, BeanNameAware, BeanFactoryAware, SmartInitializingSingleton, DisposableBean {
+public class AcfDemoAnnotationBeanPostProcessor implements MergedBeanDefinitionPostProcessor,  PriorityOrdered,
+		EmbeddedValueResolverAware, BeanNameAware, BeanFactoryAware, SmartInitializingSingleton, InitializingBean,DisposableBean {
 	private StringValueResolver embeddedValueResolver;
 
 	private String beanName;
@@ -42,8 +40,7 @@ public class AcfDemoAnnotationBeanPostProcessor implements MergedBeanDefinitionP
 
 	@Override
 	public void destroy() throws Exception {
-		// TODO Auto-generated method stub
-		log.info("==================destroy");
+		log.info("==================destroy:{}",beanName);
 	}
 
 	@Override
@@ -64,7 +61,7 @@ public class AcfDemoAnnotationBeanPostProcessor implements MergedBeanDefinitionP
 	@Override
 	public void afterSingletonsInstantiated() {
 		log.info("==================afterSingletonsInstantiated");
-		this.finishRegistration();
+		//this.finishRegistration();
 	}
 
 	private void finishRegistration() {
@@ -77,7 +74,7 @@ public class AcfDemoAnnotationBeanPostProcessor implements MergedBeanDefinitionP
 				targetClass = Class.forName(clazz);
 				AcfDemoApi acfDemoApi=targetClass.getAnnotation(AcfDemoApi.class);
 				if(acfDemoApi!=null) {
-					beanFactory.registerSingleton(targetClass.getName(), targetClass);
+					beanFactory.registerSingleton(targetClass.getName(), new AcfDemoServiceApi());
 				}
 			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
@@ -86,29 +83,17 @@ public class AcfDemoAnnotationBeanPostProcessor implements MergedBeanDefinitionP
 			Arrays.asList(beanFactory.getBeanDefinitionNames()).forEach(o->{
 				log.info("---------------{}",o);
 			});
+			AcfDemoServiceApi api=beanFactory.getBean(AcfDemoServiceApi.class);
+			System.out.println(api);
 			beanFactory.getBeanNamesIterator().forEachRemaining(o->{
-				log.info("---------------{}",o);
+				log.info("==============={}",o);
 			});
+			
+			log.info("====------------=========={}",3);
 		}
 		
 	}
 
-	/**
-	 * @param schedulerType
-	 * @param byName
-	 * @return
-	 */
-	private <T> T resolveSchedulerBean(Class<T> schedulerType, boolean byName) {
-		if (this.beanFactory instanceof AutowireCapableBeanFactory) {
-			NamedBeanHolder<T> holder = ((AutowireCapableBeanFactory) this.beanFactory).resolveNamedBean(schedulerType);
-			if (this.beanFactory instanceof ConfigurableBeanFactory) {
-				((ConfigurableBeanFactory) this.beanFactory).registerDependentBean(holder.getBeanName(), this.beanName);
-			}
-			return holder.getBeanInstance();
-		} else {
-			return this.beanFactory.getBean(schedulerType);
-		}
-	}
 
 	@Override
 	public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
@@ -117,13 +102,20 @@ public class AcfDemoAnnotationBeanPostProcessor implements MergedBeanDefinitionP
 
 	@Override
 	public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
-		Class<?> targetClass = AopProxyUtils.ultimateTargetClass(bean);
+		//Class<?> targetClass = AopProxyUtils.ultimateTargetClass(bean);
 		return bean;
 	}
 
 	@Override
 	public void postProcessMergedBeanDefinition(RootBeanDefinition beanDefinition, Class<?> beanType, String beanName) {
 
+	}
+
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		log.info("=======================applicationContext:{}",applicationContext);
+		this.finishRegistration();
+		log.info("-------embeddedValueResolver:{}",embeddedValueResolver);
 	}
 
 }

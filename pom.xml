@@ -19,6 +19,7 @@
 	<properties>
 		<spring.version>4.3.18.RELEASE</spring.version>
 		<spring-data-jpa.version>1.11.8.RELEASE</spring-data-jpa.version>
+		<shiro.version>1.4.0</shiro.version>
 		<hibernate.version>4.3.10.Final</hibernate.version>
 		<hibernate.validator.version>5.2.4.Final</hibernate.validator.version>
 		<hikaricp.version>2.5.1</hikaricp.version>
@@ -90,7 +91,17 @@
 				<artifactId>spring-context</artifactId>
 				<version>${spring.version}</version>
 			</dependency>
-
+			<dependency>
+			  <groupId>org.apache.shiro</groupId>
+			  <artifactId>shiro-web</artifactId>
+			  <version>${shiro.version}</version>
+			</dependency>
+			<dependency>
+			  <groupId>org.apache.shiro</groupId>
+			  <artifactId>shiro-spring</artifactId>
+			  <version>${shiro.version}</version>
+			</dependency>
+			
 			<!-- PERSISTENCE begin -->
 			<!-- hibernate -->
 			<dependency>
@@ -214,6 +225,12 @@
 				<artifactId>javax.servlet-api</artifactId>
 				<version>3.1.0</version>
 				<scope>provided</scope>
+			</dependency>
+			
+			<dependency>
+			  <groupId>commons-codec</groupId>
+			  <artifactId>commons-codec</artifactId>
+			  <version>1.11</version>
 			</dependency>
 
 			<!-- Jackson -->

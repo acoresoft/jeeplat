@@ -10,5 +10,7 @@ public class ClassScanerTests {
 	public void testScan() throws Exception {
 		 ClassScaner.scan("com.acoreful")
          .forEach(clazz -> System.out.println(clazz));
+		 ClassScaner.scan("com.acoreful1")
+		 .forEach(clazz -> System.out.println(clazz));
 	}
 }

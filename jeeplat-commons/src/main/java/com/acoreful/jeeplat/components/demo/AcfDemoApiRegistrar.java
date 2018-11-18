@@ -2,7 +2,6 @@ package com.acoreful.jeeplat.components.demo;
 
 import java.util.Map;
 
-import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
